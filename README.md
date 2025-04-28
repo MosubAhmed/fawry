@@ -28,8 +28,8 @@ done
 
 
 3. Option Flags Setup
-n_flag=0  # Default: no line numbers
-v_flag=0  # Default: normal matching
+n_flag=0  
+v_flag=0  
 
 - Initialize toggle switches for options (-n and -v)
 
@@ -38,12 +38,12 @@ v_flag=0  # Default: normal matching
 4. Option Handling
 while getopts "nv" opt; do
     case $opt in
-        n) n_flag=1 ;;     # Turn on line numbers
-        v) v_flag=1 ;;     # Turn on inverted matching
+        n) n_flag=1 ;;     
+        v) v_flag=1 ;;    
         *) echo "Usage: $0 [-n] [-v] text file" >&2; exit 1 ;;
     esac
 done
-shift $((OPTIND - 1))     # Remove processed options
+shift $((OPTIND - 1))    
 
 
 
