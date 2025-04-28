@@ -4,10 +4,10 @@
 for arg in "$@"; do
     if [[ "$arg" == "--help" ]]; then
         echo "Usage: $0 [-n] [-v] pattern file"
-        echo "Find text in files (case-insensitive)"
-        echo "Options:"
-        echo "  -n  Show line numbers"
-        echo "  -v  Exclude matches"
+        echo "Find text in files (case-in sensitive)"
+        echo "options: "
+        echo "  -n  show line number"
+        echo "  -v  exclude matche"
         exit 0
     fi
 done
@@ -15,32 +15,32 @@ done
 n_flag=0
 v_flag=0
 
-# Handle options
+# Handlle option
 while getopts "nv" opt; do
     case $opt in
         n) n_flag=1 ;;
         v) v_flag=1 ;;
-        *) echo "Usage: $0 [-n] [-v] text file" >&2; exit 1 ;;
+        *) echo "usage: $0 [-n] [-v] text file" >&2; exit 1 ;;
     esac
 done
 shift $((OPTIND - 1))
 
 # Validate arguments
 if [ $# -ne 2 ]; then
-    echo "Error: Need search text and filename" >&2
+    echo "error: need to search text.txt and file_name" >&2
     exit 1
 fi
 
 search="$1"
 file="$2"
 
-# Check file exists
+# check if the file is exist
 if [ ! -f "$file" ]; then
-    echo "Error: Can't find '$file'" >&2
+    echo "error: can not find the file named : '$file'" >&2
     exit 1
 fi
 
-# Convert search text to lowercase once
+# convert to lowercase 
 low_search=$(echo "$search" | tr '[:upper:]' '[:lower:]')
 
 line_num=0
