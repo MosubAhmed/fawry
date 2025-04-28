@@ -146,13 +146,24 @@ Analysis:
 ```
 
 
+![image](https://github.com/user-attachments/assets/198b4d16-032b-455a-9686-9cd7c09501b4)
 
 
 
 
-
-
-
+Tested DNS Resolution Using Public DNS (8.8.8.8)
+```
+    • Command:
+      dig @8.8.8.8 internal.example.com
+```
+• Result:
+  Received an NXDOMAIN (non-existent domain) response.
+```
+• Analysis:
+    ◦ Google's DNS (8.8.8.8) does not know internal domains.
+    ◦ This is expected behavior.
+    ◦ Conclusion: The issue lies with the internal DNS server, not with public DNS.
+```
 
 
 
