@@ -166,8 +166,42 @@ Tested DNS Resolution Using Public DNS (8.8.8.8)
 ```
 
 
+![image](https://github.com/user-attachments/assets/254ecdb2-1ca2-46c8-a1b3-06358e83919a)
 
 
+
+
+Checked /etc/resolv.conf
+```
+    • Command:
+      cat /etc/resolv.conf
+    • Result:
+Found a wrong or non-functional DNS server IP configured.
+```
+  • Analysis:
+        ◦ If /etc/resolv.conf points to the wrong DNS server, name resolution will fail.
+        ◦ It must point to the correct internal DNS server.
+
+
+
+Verified Network Connectivity
+    • Commands:
+      ping internal.example.com
+      traceroute internal.example.com
+
+    
+    • Result:
+        ◦ No successful ping or incomplete traceroute if DNS is broken.
+        ◦ Helped confirm whether it was a DNS or network routing issue.
+
+
+Tested Web Server VirtualHost Configuration
+    • Command:
+      curl -v http://internal.example.com
+
+
+    • Result:
+        ◦ A proper HTTP/1.1 200 OK or page content indicated that the web server itself was healthy.
 
 
 
