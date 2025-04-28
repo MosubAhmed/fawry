@@ -3,14 +3,13 @@ also i made sure that the file is excutable by running this command chmod +x myg
 
 The most challenging aspect was argument parsing and validation, specifically:
 Option Combinations: Ensuring -nv and -vn behaved identically required proper getopts configuration and flag management.
-
-
-
 1. Initial Setup
+bash
+#!/bin/bash
 #!/bin/bash: Specifies this should run in the Bash shell
 
-
 2. Help Documentation
+bash
 for arg in "$@"; do
     if [[ "$arg" == "--help" ]]; then
         echo "Usage: $0 [-n] [-v] pattern file"
@@ -21,40 +20,34 @@ for arg in "$@"; do
         exit 0
     fi
 done
+Checks if user typed --help
 
-- Checks if user typed --help
-- Prints usage instructions and exits if help requested
-
-
+Prints usage instructions and exits if help requested
 
 3. Option Flags Setup
-n_flag=0  
-v_flag=0  
-
-- Initialize toggle switches for options (-n and -v)
-
-
+bash
+n_flag=0  # Default: no line numbers
+v_flag=0  # Default: normal matching
+Initialize toggle switches for options (-n and -v)
 
 4. Option Handling
+bash
 while getopts "nv" opt; do
     case $opt in
-        n) n_flag=1 ;;     
-        v) v_flag=1 ;;    
+        n) n_flag=1 ;;     # Turn on line numbers
+        v) v_flag=1 ;;     # Turn on inverted matching
         *) echo "Usage: $0 [-n] [-v] text file" >&2; exit 1 ;;
     esac
 done
-shift $((OPTIND - 1))    
+shift $((OPTIND - 1))     # Remove processed options
+getopts processes -n/-v flags
 
+shift removes options from arguments list
 
-
--getopts processes -n/-v flags
--shift removes options from arguments list
--Handles invalid options by showing usage
-
-
-
+Handles invalid options by showing usage
 
 5. Input Validation
+bash
 if [ $# -ne 2 ]; then
     echo "Error: Need search text and filename" >&2
     exit 1
@@ -67,23 +60,19 @@ if [ ! -f "$file" ]; then
     echo "Error: Can't find '$file'" >&2
     exit 1
 fi
+Checks for exactly 2 remaining arguments
 
-- Checks for exactly 2 remaining arguments
-- Verifies input file exists
-- Stores search term and filename
+Verifies input file exists
 
-
+Stores search term and filename
 
 6. Case Insensitivity Setup
+bash
 low_search=$(echo "$search" | tr '[:upper:]' '[:lower:]')
-
-- Converts search term to lowercase once (optimization)
-
-
-
+Converts search term to lowercase once (optimization)
 
 7. File Processing
-
+bash
 line_num=0
 
 while IFS= read -r line; do
@@ -94,25 +83,24 @@ while IFS= read -r line; do
     
     # Check for match
     [[ "$low_line" == *"$low_search"* ]] && match=1 || match=0
+IFS= read -r line: Reads file line-by-line preserving spaces
 
-- IFS= read -r line: Reads file line-by-line preserving spaces
-- line_num tracks current line number
-- Converts each line to lowercase for comparison
-- Uses wildcard match (*) to find substring
+line_num tracks current line number
 
+Converts each line to lowercase for comparison
 
+Uses wildcard match (*) to find substring
 
 8. Match Inversion
+bash
     # Flip match if -v used
     ((v_flag)) && match=$((!match))
+If -v flag is active, reverses match status
 
-- If -v flag is active, reverses match status
-- Example: Turns 1 (match) → 0 (no match)
-
-
+Example: Turns 1 (match) → 0 (no match)
 
 9. Output Formatting
-
+bash
     if ((match)); then
         if ((n_flag)); then
             echo "$line_num:$line"
@@ -121,14 +109,38 @@ while IFS= read -r line; do
         fi
     fi
 done < "$file"
+Prints line if matched
 
+Adds line numbers when -n flag is active
 
-- Prints line if matched
-- Adds line numbers when -n flag is active
-- done < "$file" feeds the file into the loop
+done < "$file" feeds the file into the loop
 
+Key Flow:
+Setup: Handle help request and options
 
-10. After creating the testfile.txt i made sure that all the test cases is correct and running as it should be
+Validation: Ensure good inputs
+
+Preparation: Convert search term once
+
+Processing: Read file line-by-line, convert case, check matches
+
+Output: Format results based on flags
+
+How Options Combine:
+-n and -v work independently but can be used together
+
+Order doesn't matter (-vn same as -nv)
+
+Case-insensitive matching is always active
+
+Testing Example:
+For ./mygrep.sh -vn hello testfile.txt:
+
+Finds lines without "hello"
+
+Shows them with line numbers
+
+Matches case-insensitively ("HELLO" would count as a match)
 
 ![Screenshot From 2025-04-28 13-52-45](https://github.com/user-attachments/assets/37e33629-6efd-428d-a449-25e263e693f3)
 
