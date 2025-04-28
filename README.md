@@ -56,12 +56,12 @@ A custom lightweight version of the `grep` command, implemented in Bash.
 ---
 
 ## 🧪 Test File (`testfile.txt`)
-# Hello world
-# This is a test
-# another test line
-# HELLO AGAIN
-# Don't match this line
-# Testing one two three
+ Hello world
+ This is a test
+ another test line
+ HELLO AGAIN
+ Don't match this line
+ Testing one two three
 
 
 ---
