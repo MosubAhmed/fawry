@@ -1,25 +1,26 @@
 mygrep.sh - Custom Grep Implementation
 A simplified grep clone with case-insensitive search and filtering options
 
-📦 Installation
-Copy to bin: sudo cp mygrep.sh /usr/local/bin/mygrep
 
-Make executable: chmod +x /usr/local/bin/mygrep
+
+📦 Installation
+- Copy to bin: sudo cp mygrep.sh /usr/local/bin/mygrep
+- Make executable: chmod +x /usr/local/bin/mygrep
+
+
 
 🚀 Features
 Case-insensitive text search
-
 -n: Show line numbers
-
 -v: Invert matches
+-Combined flags support (-nv/-vn)
+-Error handling for missing files/arguments
 
-Combined flags support (-nv/-vn)
 
-Error handling for missing files/arguments
 
 🛠️ Implementation
-Argument Handling:
 
+Argument Handling:
 bash
 while getopts "nv" opt; do
     case $opt in
@@ -45,6 +46,8 @@ Uses wildcard matching for substring search
 
 Inverts match status using boolean negation
 
+
+
 ✅ Validation
 Test File (testfile.txt):
 
@@ -65,6 +68,8 @@ mygrep -v testfile.txt                  # Error: Missing search term
 🧠 Development Challenges
 Main Difficulty: Option combination handling (-nv/-vn)
 Solution: Used getopts for native flag stacking support and maintained state with boolean flags
+
+
 
 ![Screenshot From 2025-04-28 13-52-45](https://github.com/user-attachments/assets/37e33629-6efd-428d-a449-25e263e693f3)
 
