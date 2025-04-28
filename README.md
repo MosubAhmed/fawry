@@ -112,3 +112,48 @@ A custom lightweight version of the `grep` command, implemented in Bash.
 ![Screenshot From 2025-04-28 13-52-45](https://github.com/user-attachments/assets/37e33629-6efd-428d-a449-25e263e693f3)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q2)
+
+🛠️ Troubleshooting Internal DNS Resolution Issue
+
+
+To simulate and troubleshoot the issue, I have intentionally:
+    1. Broke DNS Resolution:
+Edited /etc/resolv.conf and set an invalid nameserver like 1.2.3.4.
+    2. Blocked HTTP Traffic:
+Used UFW firewall to deny HTTP traffic:
+       sudo ufw deny 80/tcp
+               
+Tested DNS Resolution Using internal DNS:
+
+       Command:
+       dig internal.example.com
+       Result:
+The query timed out (no response).
+       Analysis:
+This suggested that either:
+        1. The system's DNS server was wrongly configured.
+        2. Or the internal DNS server was unresponsive.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
