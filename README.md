@@ -23,8 +23,8 @@ Argument Handling:
 bash
 while getopts "nv" opt; do
     case $opt in
-        n) show_numbers=1 ;;  # -n flag
-        v) invert_match=1 ;;  # -v flag
+        n) show_numbers=1 ;;  
+        v) invert_match=1 ;;  
         *) exit 1 ;;
     esac
 done
