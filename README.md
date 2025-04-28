@@ -228,6 +228,16 @@ The Ubuntu firewall (UFW) is disabled.
 
 ![image](https://github.com/user-attachments/assets/7f303a2b-e54e-47ef-9b44-77d3984951b8)
 
+```
+sudo systemctl enable systemd-resolved
+sudo systemctl start systemd-resolved
+sudo nano /etc/systemd/resolved.conf
+```
+
+
+![Uploading Screenshot From 2025-04-28 19-13-08.png…]()
+
+
 
 ```
 Conclusion:
