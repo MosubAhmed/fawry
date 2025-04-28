@@ -47,9 +47,10 @@ done
 shift $((OPTIND - 1))     # Remove processed options
 
 
-- getopts processes -n/-v flags
-- shift removes options from arguments list
-- Handles invalid options by showing usage
+
+-getopts processes -n/-v flags
+-shift removes options from arguments list
+-Handles invalid options by showing usage
 
 
 
