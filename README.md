@@ -129,15 +129,16 @@ Tested DNS Resolution Using internal DNS:
 
        Command:
        dig internal.example.com
-
+```
 Result:
   The query timed out (no response).
+
 Analysis:
   So either:
         1. The system's DNS server was wrongly configured.
         2. Or the internal DNS server was unresponsive.
 
-
+```
 
 
 
