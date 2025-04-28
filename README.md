@@ -229,10 +229,10 @@ The Ubuntu firewall (UFW) is disabled.
 ![image](https://github.com/user-attachments/assets/7f303a2b-e54e-47ef-9b44-77d3984951b8)
 
 
-
+```
 Conclusion:
 this is the flow chart I have followed:
 "Client → DNS Request → Internal DNS → Web Server Response"
 
-
+```
 
