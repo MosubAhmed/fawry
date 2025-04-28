@@ -209,9 +209,30 @@ Tested Web Server VirtualHost Configuration
 
 
 
+To bypass DNS temporarily during troubleshooting, I edited /etc/hosts:
+```
+sudo nano /etc/hosts
+Added:
+192.168.0.120 internal.example.com
+```
+
+
+![image](https://github.com/user-attachments/assets/46704ff2-2d7e-4d78-9a26-898bddb7d52b)
 
 
 
+
+The Ubuntu firewall (UFW) is disabled.
+    • So firewall blocking is NOT the cause of your DNS timeout issue.
+
+
+![image](https://github.com/user-attachments/assets/7f303a2b-e54e-47ef-9b44-77d3984951b8)
+
+
+
+Conclusion:
+this is the flow chart I have followed:
+"Client → DNS Request → Internal DNS → Web Server Response"
 
 
 
