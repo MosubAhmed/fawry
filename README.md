@@ -1,146 +1,127 @@
-I developed a mygrep.sh script and placed it in the /usr/local/bin directory, ensuring its executability from any location.
-also i made sure that the file is excutable by running this command chmod +x mygrep.sh 
 
-The most challenging aspect was argument parsing and validation, specifically:
-Option Combinations: Ensuring -nv and -vn behaved identically required proper getopts configuration and flag management.
-1. Initial Setup
-bash
-#!/bin/bash
-#!/bin/bash: Specifies this should run in the Bash shell
+# 📄 mygrep.sh
 
-2. Help Documentation
-bash
-for arg in "$@"; do
-    if [[ "$arg" == "--help" ]]; then
-        echo "Usage: $0 [-n] [-v] pattern file"
-        echo "Find text in files (case-insensitive)"
-        echo "Options:"
-        echo "  -n  Show line numbers"
-        echo "  -v  Exclude matches"
-        exit 0
-    fi
-done
-Checks if user typed --help
+A custom lightweight version of the `grep` command, implemented in Bash.
 
-Prints usage instructions and exits if help requested
+---
 
-3. Option Flags Setup
-bash
-n_flag=0  # Default: no line numbers
-v_flag=0  # Default: normal matching
-Initialize toggle switches for options (-n and -v)
+## ✨ Features
 
-4. Option Handling
-bash
-while getopts "nv" opt; do
-    case $opt in
-        n) n_flag=1 ;;     # Turn on line numbers
-        v) v_flag=1 ;;     # Turn on inverted matching
-        *) echo "Usage: $0 [-n] [-v] text file" >&2; exit 1 ;;
-    esac
-done
-shift $((OPTIND - 1))     # Remove processed options
-getopts processes -n/-v flags
+- **Case-insensitive** text search.
+- **Supported options**:
+  - `-n` → Display line numbers for matches.
+  - `-v` → Invert match (show lines **not** containing the search term).
+- **Combination of options** (`-vn`, `-nv`, etc.) is fully supported.
+- **Error handling** for missing files and incorrect inputs.
+- **`--help`** flag to display usage instructions.
 
-shift removes options from arguments list
+---
 
-Handles invalid options by showing usage
+## 🛠️ Installation
 
-5. Input Validation
-bash
-if [ $# -ne 2 ]; then
-    echo "Error: Need search text and filename" >&2
-    exit 1
-fi
+1. Clone this repository or download the `mygrep.sh` file.
+2. Make the script executable:
+   ```bash
+   chmod +x mygrep.sh
+   ```
+3. (Optional) Move it to `/usr/local/bin` for system-wide usage:
+   ```bash
+   sudo mv mygrep.sh /usr/local/bin/mygrep
+   ```
 
-search="$1"
-file="$2"
+---
 
-if [ ! -f "$file" ]; then
-    echo "Error: Can't find '$file'" >&2
-    exit 1
-fi
-Checks for exactly 2 remaining arguments
+## 🚀 Usage
 
-Verifies input file exists
+```bash
+./mygrep.sh [options] search_text filename
+```
 
-Stores search term and filename
+### 📌 Options:
+| Option | Description                            |
+|:------:|:---------------------------------------|
+| `-n`   | Show line numbers for matches           |
+| `-v`   | Invert matching (show lines without match) |
+| `--help` | Display usage information             |
 
-6. Case Insensitivity Setup
-bash
-low_search=$(echo "$search" | tr '[:upper:]' '[:lower:]')
-Converts search term to lowercase once (optimization)
+### 📚 Examples
 
-7. File Processing
-bash
-line_num=0
+```bash
+./mygrep.sh hello testfile.txt
+./mygrep.sh -n hello testfile.txt
+./mygrep.sh -vn hello testfile.txt
+./mygrep.sh -v testfile.txt
+```
 
-while IFS= read -r line; do
-    ((line_num++))
-    
-    # Convert line to lowercase
-    low_line=$(echo "$line" | tr '[:upper:]' '[:lower:]')
-    
-    # Check for match
-    [[ "$low_line" == *"$low_search"* ]] && match=1 || match=0
-IFS= read -r line: Reads file line-by-line preserving spaces
+---
 
-line_num tracks current line number
+## 🧪 Test File (`testfile.txt`)
 
-Converts each line to lowercase for comparison
+Contents of the sample test file used:
 
-Uses wildcard match (*) to find substring
+```
+Hello world
+This is a test
+another test line
+HELLO AGAIN
+Don't match this line
+Testing one two three
+Nothing to see here
+HELLO from the other side
+Just another random text
+testing Testing TeSting
+No matching word here
+Hello there, General Kenobi
+Final line without match
+Another Hello message
+HELLO and welcome
+test your limits
+Test cases are important
+```
 
-8. Match Inversion
-bash
-    # Flip match if -v used
-    ((v_flag)) && match=$((!match))
-If -v flag is active, reverses match status
+---
 
-Example: Turns 1 (match) → 0 (no match)
+## 🛡️ Validation
 
-9. Output Formatting
-bash
-    if ((match)); then
-        if ((n_flag)); then
-            echo "$line_num:$line"
-        else
-            echo "$line"
-        fi
-    fi
-done < "$file"
-Prints line if matched
+✅ Tested successfully with:
 
-Adds line numbers when -n flag is active
+- Normal match
+- Line numbers display
+- Inverted matches
+- Missing search text (error handling)
 
-done < "$file" feeds the file into the loop
+---
 
-Key Flow:
-Setup: Handle help request and options
+## 🧠 Reflection
 
-Validation: Ensure good inputs
+### How the script handles arguments and options:
 
-Preparation: Convert search term once
+- Used `getopts` to parse `-n` and `-v` flags flexibly.
+- Detected `--help` manually before option parsing.
+- Checked argument count and file existence after parsing.
+- Converted both the search term and each line to lowercase for consistent case-insensitive comparison.
+- Applied match inversion if `-v` was specified.
 
-Processing: Read file line-by-line, convert case, check matches
+### How structure would change to support regex or additional options (`-i`, `-c`, `-l`):
 
-Output: Format results based on flags
+- Would enhance matching logic to support regex using Bash’s `[[ ]]`, `grep`, or even `awk`.
+- `-c` (count) would require counting matches instead of printing them.
+- `-l` (list files) would print only the filename if a match exists.
+- Might refactor file processing into functions to keep the code clean as features expand.
 
-How Options Combine:
--n and -v work independently but can be used together
+### Most challenging part:
 
-Order doesn't matter (-vn same as -nv)
+- Correctly parsing and managing combinations like `-vn` and `-nv` using `getopts`.
+- Making sure the inverted match logic didn’t interfere with regular match behavior.
+- Balancing feature support while keeping the script easy to maintain and understand.
 
-Case-insensitive matching is always active
+---
 
-Testing Example:
-For ./mygrep.sh -vn hello testfile.txt:
+## 🎯 Bonus Features
 
-Finds lines without "hello"
+- Added a `--help` flag to display a help guide.
+- Used `getopts` for robust option parsing.
 
-Shows them with line numbers
-
-Matches case-insensitively ("HELLO" would count as a match)
 
 ![Screenshot From 2025-04-28 13-52-45](https://github.com/user-attachments/assets/37e33629-6efd-428d-a449-25e263e693f3)
 
