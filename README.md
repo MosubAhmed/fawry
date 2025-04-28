@@ -235,7 +235,8 @@ sudo nano /etc/systemd/resolved.conf
 ```
 
 
-![Uploading Screenshot From 2025-04-28 19-13-08.png…]()
+
+![Screenshot From 2025-04-28 19-13-08](https://github.com/user-attachments/assets/302158ba-697e-46fc-8905-44b79c7907e0)
 
 
 
