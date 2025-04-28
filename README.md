@@ -178,8 +178,13 @@ Checked /etc/resolv.conf
     • Result:
 Found a wrong or non-functional DNS server IP configured.
 ```
+
   • Analysis:
+
+        
         ◦ If /etc/resolv.conf points to the wrong DNS server, name resolution will fail.
+        
+        
         ◦ It must point to the correct internal DNS server.
 
 
