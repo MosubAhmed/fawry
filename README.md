@@ -119,12 +119,16 @@ Q2)
 
 
 To simulate and troubleshoot the issue, I have intentionally:
-    1. Broke DNS Resolution:
-Edited /etc/resolv.conf and set an invalid nameserver like 1.2.3.4.
-    2. Blocked HTTP Traffic:
-Used UFW firewall to deny HTTP traffic:
-       sudo ufw deny 80/tcp
-               
+1. Broke DNS Resolution:
+---
+   Edited /etc/resolv.conf and set an invalid nameserver like 1.2.3.4.
+---
+2. Blocked HTTP Traffic:
+---
+   Used UFW firewall to deny HTTP traffic:
+  ```
+ sudo ufw deny 80/tcp
+  ```          
 Tested DNS Resolution Using internal DNS:
 
        Command:
