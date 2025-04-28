@@ -57,28 +57,6 @@ A custom lightweight version of the `grep` command, implemented in Bash.
 
 ## 🧪 Test File (`testfile.txt`)
 
-Contents of the sample test file used:
-
-```
-Hello world
-This is a test
-another test line
-HELLO AGAIN
-Don't match this line
-Testing one two three
-Nothing to see here
-HELLO from the other side
-Just another random text
-testing Testing TeSting
-No matching word here
-Hello there, General Kenobi
-Final line without match
-Another Hello message
-HELLO and welcome
-test your limits
-Test cases are important
-```
-
 ---
 
 ## 🛡️ Validation
